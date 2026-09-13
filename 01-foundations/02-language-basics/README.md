@@ -148,3 +148,63 @@ When the function is defined in another file, we write its prototype in a header
 Declarations go in the `.h` file, because it is copied into every file that includes it. Definitions go in the `.cpp` file, because they must exist only once in the whole program.
 
 It is a good practice to include the header in its own `.cpp` file too. This way the compiler sees the declaration and the definition together and it tells us immediately if they do not match.
+
+# Uniform initialization
+
+Uniform initialization is a way of initializing a variable using curly braces `{}`. It works the same for primitives, arrays, pointers and user defined types, and that is where the name comes from.
+
+syntax: `T obj{};`
+
+## Value initialization
+
+With empty braces the variable takes its default value, which is `0` for the numeric types.
+
+```cpp
+int a{};                   // 0
+char c[8]{};               // every element is '\0'
+int* p1 = new int{};       // 0
+char* p2 = new char[8]{};  // every element is '\0'
+```
+
+## Direct initialization
+
+With a value inside the braces the variable is initialized with that value.
+
+```cpp
+int b{5};
+std::string s{"C++"};
+char e[8]{"Hello"};
+```
+
+## Aggregate initialization
+
+Arrays can be initialized element by element. The elements that we do not write are value initialized.
+
+```cpp
+char d[8]{'a', 'b', 'c', 'd'};
+```
+
+## Copy initialization
+
+It is the classic one, the one with the `=` sign. It is not uniform initialization, but it is useful to compare.
+
+```cpp
+int a1 = 0;
+```
+
+## Most vexing parse
+
+`int b2();` does not create a variable initialized to zero. The compiler reads it as the declaration of a function called `b2` that takes no parameters and returns an `int`. With braces, `int b2{};`, there is no ambiguity.
+
+## Advantages
+
+1. It forces the initialization, so we never read a variable with garbage in it.
+2. It works with array types, where direct initialization with parentheses is not allowed.
+3. It prevents narrowing conversions, like assigning a floating point value to an integer.
+
+```cpp
+int x{3.14};   // error
+int y = 3.14;  // compiles, the value is truncated to 3
+```
+
+Note: for the primitive types we normally use the assignment `=`, but for the user defined types we use uniform initialization.
