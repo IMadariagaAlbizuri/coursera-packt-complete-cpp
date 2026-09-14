@@ -208,3 +208,91 @@ int y = 3.14;  // compiles, the value is truncated to 3
 ```
 
 Note: for the primitive types we normally use the assignment `=`, but for the user defined types we use uniform initialization.
+
+# Pointers
+
+A pointer is a variable that holds the memory address of another variable. It gives indirect access: we reach the value through the address instead of the name.
+
+It is declared with the `*` operator, and its type must match the type it points to. To get the address of a variable we use `&`.
+
+```cpp
+int x = 10;
+int* ptr = &x;
+int *p1, *p2;   // the * belongs to each variable, not to the type
+```
+
+It needs not to be initialized, but always do it: an uninitialized pointer holds garbage and using it crashes the program.
+
+A `void*` can hold the address of any type, but it has to be casted back before reading the value.
+
+## Dereference operator
+
+The `*` operator accesses the value at the address, for both reading and writing.
+
+```cpp
+*ptr = 5;        // write: now x is 5
+int y = *ptr;    // read: y takes the value of x
+```
+
+The same symbol means two things: the type in a declaration, and the dereference in an expression.
+
+## Null pointer
+
+A pointer that points to nothing, used to initialize a pointer when we still have no address for it.
+
+```cpp
+int* p1 = nullptr;   // C++11
+int* p2 = NULL;      // old C style, defined as 0
+```
+
+Dereferencing it crashes the program, and that is exactly why it is useful: `nullptr` is a value we can check with an `if`, and garbage is not.
+
+```cpp
+if (ptr != nullptr) {
+    std::cout << *ptr << std::endl;
+}
+```
+# References
+
+A reference is an alternative name for a variable, an alias. It is created with the `&` operator and it always needs an initializer, called the referent.
+
+```cpp
+int x = 10;
+int& ref = x;   // x is the referent, ref is the reference
+```
+
+It is not a new variable, just another name for the same memory. Modifying one modifies the other, and both have the same address.
+
+Once bound to its referent it stays bound forever, it cannot point to another variable.
+
+The initializer must be an l-value, something with a name and an address. `int& r = 10;` is an error, but `const int& r = 10;` is fine.
+
+Their main use is passing variables to functions without copying them.
+
+```cpp
+void Increment(int n)  { n++; }   // modifies the copy
+void Increment(int& n) { n++; }   // modifies the original
+```
+
+## Difference between pointer and reference
+
+| | Reference | Pointer |
+|---|---|---|
+| Initializer | Always needed | Optional |
+| Initializer must be l-value | Yes | No |
+| Can be null | No | Yes, `nullptr` |
+| Can be reseated | No | Yes |
+| Storage | Same address as the referent | Has its own |
+| Dereference | Not needed | Needs `*` |
+
+# Const Qualifier
+
+It is used to make a variable value constant. Afterwards can be changed. Also they must be initilized.
+
+It replaces the usesage of Macros in C++ (not type safe and dont have scope.)
+
+Most commonly used with references
+
+const <type> <variable>  {initializer}
+
+const float PI {3.14f}
