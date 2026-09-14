@@ -217,7 +217,7 @@ It is declared with the `*` operator, and its type must match the type it points
 
 ```cpp
 int x = 10;
-int* ptr = &x;
+int *ptr = &x;
 int *p1, *p2;   // the * belongs to each variable, not to the type
 ```
 
@@ -241,8 +241,8 @@ The same symbol means two things: the type in a declaration, and the dereference
 A pointer that points to nothing, used to initialize a pointer when we still have no address for it.
 
 ```cpp
-int* p1 = nullptr;   // C++11
-int* p2 = NULL;      // old C style, defined as 0
+int *p1 = nullptr;   // C++11
+int *p2 = NULL;      // old C style, defined as 0
 ```
 
 Dereferencing it crashes the program, and that is exactly why it is useful: `nullptr` is a value we can check with an `if`, and garbage is not.
@@ -258,7 +258,7 @@ A reference is an alternative name for a variable, an alias. It is created with 
 
 ```cpp
 int x = 10;
-int& ref = x;   // x is the referent, ref is the reference
+int &ref = x;   // x is the referent, ref is the reference
 ```
 
 It is not a new variable, just another name for the same memory. Modifying one modifies the other, and both have the same address.
@@ -285,14 +285,22 @@ void Increment(int& n) { n++; }   // modifies the original
 | Storage | Same address as the referent | Has its own |
 | Dereference | Not needed | Needs `*` |
 
-# Const Qualifier
+# Const qualifier
 
-It is used to make a variable value constant. Afterwards can be changed. Also they must be initilized.
+It makes the value of a variable constant, so it cannot be changed afterwards. A `const` variable must always be initialized in the declaration.
 
-It replaces the usesage of Macros in C++ (not type safe and dont have scope.)
+syntax: `const <type> <name>{<initializer>};`
 
-Most commonly used with references
+```cpp
+const float PI{3.14f};
+PI = 3;              // error
+const int a;         // error, no initializer
+```
 
-const <type> <variable>  {initializer}
+It replaces the macros of C, which are not type safe and have no scope.
 
-const float PI {3.14f}
+It is most commonly used with references, to pass a variable to a function without copying it and without allowing the function to modify it.
+
+```cpp
+void Print(const std::string& s);
+```
