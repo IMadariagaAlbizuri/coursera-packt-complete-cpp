@@ -16,7 +16,12 @@ Hi everyone! Additionally to the course, I add up some exercises to practise the
 
 3. **Geometry**
 
-   `geometry.h` and `geometry.cpp` with the area and the perimeter of a circle, a rectangle and a
-   triangle. `main.cpp` with a menu that asks for the shape and its dimensions.
+   `geometry.h` and `geometry.cpp` with the area and the perimeter of a circle, a rectangle and a triangle. `main.cpp` with a menu that asks for the shape and its dimensions.
 
    `const double PI{3.14159}`.
+
+4. **Find in an array**
+
+   A `Find()` function that receives an array, its size and a value, and returns a pointer to the element if it is there, or `nullptr` if it is not.
+
+   In `main()`, check the returned pointer before dereferencing it. Once it is found, use the pointer to modify the element inside the array.

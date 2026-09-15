@@ -304,3 +304,46 @@ It is most commonly used with references, to pass a variable to a function witho
 ```cpp
 void Print(const std::string& s);
 ```
+
+# Auto keyword
+
+In C it was used to indicate automatic storage for a variable declared inside a function block, and it was optional. Now it is used to declare a variable without specifying its type, which the compiler deduces from the initializer.
+
+syntax: `auto <identifier> = <initializer>;`
+
+The initializer can be a literal, an expression or a function call that returns a value. It is mandatory, because without it the compiler has nothing to deduce from.
+
+```cpp
+auto a = 5;                // int
+auto c = Multiply(2, 3);   // whatever Multiply returns
+auto x;                    // error
+```
+
+They are really useful when lambda expressions and templates are used, where the type is long or cannot be written by hand.
+
+# Range-based for loop
+
+It allows iterations over arrays and containers with no need of an index variable. Each iteration returns an element, and it can be used with any object that behaves like a range.
+
+syntax: `for (<variable declaration> : <range>)`
+
+```cpp
+int arr[]{1, 2, 3};
+
+for (int x : arr) {}     // x is a copy, modifying it does not change arr
+for (int& x : arr) {}    // with a reference we can modify the elements
+```
+
+The size of the range must be known, so it does not work with an array received as a function parameter.
+
+Difference between the for loop and the range-based for loop:
+
+## For vs range-based for
+
+| | For loop | Range-based for loop |
+|---|---|---|
+| Iteration | Index based | Does not use an index |
+| End condition | Written by us | Provided by the range |
+| Increment | The index needs to be incremented or decremented | Not needed |
+| Errors | More likely | Less chances |
+| Control | More control over the iterations | No control |
