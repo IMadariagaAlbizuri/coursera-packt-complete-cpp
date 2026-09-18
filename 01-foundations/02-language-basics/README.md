@@ -347,3 +347,124 @@ Difference between the for loop and the range-based for loop:
 | Increment | The index needs to be incremented or decremented | Not needed |
 | Errors | More likely | Less chances |
 | Control | More control over the iterations | No control |
+
+# Function overloading
+
+When we have the same logical operation but with different parameters, it is better to overload the function instead of using a different name for each one. The code is easier to read, because we only have to remember one name.
+
+Functions with the same name must differ in the number or in the type of their parameters. This is called the signature.
+
+```cpp
+int Add(int a, int b);
+double Add(double a, double b);
+int Add(int a, int b, int c);
+```
+
+The correct implementation is chosen based on the arguments of the call, and it is resolved at compile time.
+
+The return type is not part of the signature, so these two do not overload, they are an error.
+
+```cpp
+int Add(int a, int b);
+double Add(int a, int b);   // error
+```
+
+If no version matches exactly the compiler tries a conversion, and if more than one matches equally well it is an ambiguity error.
+
+# Default function arguments
+
+They allow to assign default values to some of the arguments, so it becomes optional for the caller
+to pass them. If a value is not passed, the default one is used, which makes the function more
+convenient to use.
+
+```cpp
+void CreateWindow(const char* title, int x = -1, int y = -1, int width = -1, int height = -1);
+
+CreateWindow("Hello");           // uses all the defaults
+CreateWindow("Hello", 10, 20);   // x and y are given, the rest are defaults
+```
+
+# Inline functions
+
+Calling a function has a cost: the assembler has to jump to it, pass the arguments and come back. When the function is very small this overhead can be bigger than the work itself.
+
+With `inline` we ask the compiler to replace the call with the body of the function, so the jump disappears.
+
+```cpp
+inline int Square(int x) {
+    return x * x;
+}
+```
+> [!WARNING]
+> Inlining increases the binary size, because the body is copied at every call. Use it only for very small functions.
+
+## Macros
+
+A macro is the old C way of doing this. It is defined with `#define`, and the preprocessor replaces the text before the compiler sees the file.
+
+```cpp
+#define SQUARE(x) x * x
+```
+
+The preprocessor does not know anything about C++, it only pastes text. That is why `SQUARE(2 + 3)` becomes `2 + 3 * 2 + 3`, which is 11 and not 25.
+
+In C++ we use `inline` functions instead, which do the same but with the rules of the language.
+
+## Macro vs inline function
+
+| | Macro | Inline function |
+|---|---|---|
+| How it works | Text substitution | The call is replaced with the body |
+| Safety | Error prone, because of the substitution | Safe, it has function semantics |
+| Address | Does not have one | Has one |
+| Multiple lines | Difficult to use | No problem |
+| Class members | Cannot be used | Can be inline |
+
+# Function pointers
+
+A pointer that holds the address of a function. Its type is the signature of the function, which means the return type and the arguments.
+
+It can be used to invoke the function indirectly, even if the name of the function is not known.
+
+syntax: `<return type> (*<name>)(<arguments>) = &<function>;`
+
+```cpp
+int Add(int a, int b);
+
+int (*PtrAdd)(int, int) = &Add;
+
+int result = PtrAdd(2, 3);     // call through the pointer
+int result = (*PtrAdd)(2, 3);  // the same, the * is optional
+```
+
+The parentheses around `*PtrAdd` are needed. Without them, `int *PtrAdd(int, int)` is the declaration of a function that returns an `int*`.
+
+With `auto` we do not have to write the type: `auto PtrAdd = &Add;`.
+
+# Namespaces
+
+A namespace is a name region where we can declare any C++ type. Everything declared inside it is not visible outside unless we ask for it.
+
+We have already used one: `std` is the namespace of the standard library.
+
+They are used to prevent name clashes, and also to modularize the code, grouping classes and functions that belong together.
+
+```cpp
+namespace Geometry {
+    const double PI{3.14159};
+    double CircleArea(double r);
+}
+```
+
+Namespaces can be nested.
+
+To access a type inside a namespace we have three options:
+
+```cpp
+Geometry::CircleArea(2.0);   // full name, no using needed
+using Geometry::CircleArea;  // brings only this name into the scope
+using namespace Geometry;    // opens the whole namespace
+```
+
+> [!WARNING]
+> Opening a namespace globally is not a good practice, because all its classes, variables and functions become visible and the name clashes come back. Never do it in a header file.
