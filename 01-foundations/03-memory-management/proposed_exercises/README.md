@@ -1,4 +1,4 @@
-9. **Dynamic grid**
+# **Memory Management Exercise**
 
    A program that asks the user for the number of rows and columns of a grid, allocates it on the heap and works with it. Everything inside a `namespace Grid`, split into `grid.h` and `grid.cpp`.
 
