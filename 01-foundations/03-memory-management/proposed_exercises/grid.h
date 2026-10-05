@@ -1,5 +1,5 @@
 // The prototype declaration of the functions to be used
-
+#pragma once
 namespace Grid {
     // Allocates the grid in the heap and returns the pointer to the array of pointers
     int **Create(int rows, int cols);

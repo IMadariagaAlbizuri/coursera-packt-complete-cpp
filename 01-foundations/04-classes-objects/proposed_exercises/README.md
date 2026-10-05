@@ -32,13 +32,14 @@
     };
 ```
 
-    - The main constructor allocates the array with `new[]` and fills it with `initial`. Name its parameters like the members and use `this->`.
-    - `totalObjects` goes up in the constructors and down in the destructor. The destructor releases
-      the array with `delete[]` and prints a message.
-    - Every function that only reads must be `const`. `GetRange()` returns a `Range` struct.
+- The main constructor allocates the array with `new[]` and fills it with `initial`. Name its parameters like the members and use `this->`.
     
-    - In `main()`, create two objects, copy one of them, modify the copy and print both to check that the original did not change.
-    - Open a block `{ }` in the middle of `main()`, create an object inside, and print
-      `Measurements::GetTotalObjects()` before, inside and after the block.
-    - Create a `const Measurements` and call `Average()` on it. Then try to call `Set()` and read the error.
-    - Try to assign one object to another with `=` and read the error.
+- `totalObjects` goes up in the constructors and down in the destructor. The destructor releases the array with `delete[]` and prints a message.
+
+- Every function that only reads must be `const`. `GetRange()` returns a `Range` struct.
+    
+- In `main()`, create two objects, copy one of them, modify the copy and print both to check that the original did not change.
+    
+- Open a block `{ }` in the middle of `main()`, create an object inside, and print `Measurements::GetTotalObjects()` before, inside and after the block.
+    
+- Create a `const Measurements` and call `Average()` on it. Then try to call `Set()` and read the error.
