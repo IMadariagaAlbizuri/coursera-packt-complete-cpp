@@ -1,0 +1,12 @@
+# Compilados
+*.exe
+*.obj
+*.pdb
+*.ilk
+*.out
+
+# Configuración del editor
+.vscode/
+
+# Sistema
+Thumbs.db
